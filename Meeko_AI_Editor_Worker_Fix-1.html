@@ -1,0 +1,1507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Meeko AI Editor — Smart Photo, Audio & Video Studio</title>
+<meta name="description" content="Meeko AI Editor: Combine photos with looping audio (1x to 10,000x), apply snowfall, shimmer, rain effects, enhance image quality, and export HD videos free.">
+
+<!-- =====================================================================
+     1. GLOBAL AD NETWORK SCRIPTS (GOOGLE ADSENSE / ADSTERRA / MONETAG)
+     Uncomment and paste your AdSense Publisher ID or Global Ad Script below:
+     ===================================================================== -->
+<!--
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+-->
+
+<style>
+  :root {
+    --bg-dark: #060a12;
+    --card-bg: #0c1322;
+    --input-bg: #10192d;
+    --cyan: #00f0ff;
+    --purple: #9d4edd;
+    --pink: #ff2a85;
+    --green: #00e676;
+    --gold: #ffbe0b;
+    --text-main: #f1f5f9;
+    --text-muted: #94a3b8;
+    --border-neon: rgba(0, 240, 255, 0.28);
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background-color: var(--bg-dark);
+    background-image: 
+      radial-gradient(circle at 15% 10%, rgba(0, 240, 255, 0.08) 0%, transparent 45%),
+      radial-gradient(circle at 85% 90%, rgba(157, 78, 221, 0.09) 0%, transparent 45%);
+    color: var(--text-main);
+    min-height: 100vh;
+    padding: 14px 12px 95px 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .app-container {
+    width: 100%;
+    max-width: 540px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  /* GLOWING HEADER & LOGO */
+  .header {
+    text-align: center;
+    padding: 14px 10px 4px 10px;
+  }
+
+  .logo-box {
+    width: 68px;
+    height: 68px;
+    margin: 0 auto 12px auto;
+    border-radius: 18px;
+    background: linear-gradient(145deg, #0b1526, #14223c);
+    border: 2px solid var(--cyan);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 18px rgba(0, 240, 255, 0.55), inset 0 0 12px rgba(0, 240, 255, 0.35);
+    animation: pulseLogo 2.8s infinite alternate;
+  }
+
+  .logo-letter {
+    font-size: 34px;
+    font-weight: 900;
+    color: #ffffff;
+    text-shadow: 0 0 10px var(--cyan), 0 0 22px var(--cyan);
+  }
+
+  @keyframes pulseLogo {
+    0% { box-shadow: 0 0 14px rgba(0, 240, 255, 0.4), inset 0 0 8px rgba(0, 240, 255, 0.25); transform: scale(1); }
+    100% { box-shadow: 0 0 26px rgba(0, 240, 255, 0.85), inset 0 0 16px rgba(0, 240, 255, 0.5); transform: scale(1.03); }
+  }
+
+  .app-title {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: 0.6px;
+    background: linear-gradient(90deg, #00f0ff, #ffffff, #c77dff, #00f0ff);
+    background-size: 250% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shineText 3.2s linear infinite;
+    filter: drop-shadow(0 0 10px rgba(0, 240, 255, 0.45));
+  }
+
+  @keyframes shineText {
+    0% { background-position: 0% center; }
+    100% { background-position: 250% center; }
+  }
+
+  .app-subtitle {
+    font-size: 12.5px;
+    color: var(--text-muted);
+    margin-top: 5px;
+  }
+
+  /* CARDS */
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-neon);
+    border-radius: 18px;
+    padding: 16px;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
+  }
+
+  .section-title {
+    font-size: 15.5px;
+    font-weight: 700;
+    color: var(--cyan);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .badge-status {
+    font-size: 11px;
+    padding: 3px 9px;
+    border-radius: 20px;
+    background: rgba(0, 230, 118, 0.15);
+    color: var(--green);
+    border: 1px solid rgba(0, 230, 118, 0.4);
+  }
+
+  /* FORM CONTROLS */
+  label {
+    display: block;
+    font-size: 12.5px;
+    color: #cbd5e1;
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+
+  select, input[type="text"], input[type="password"], textarea {
+    width: 100%;
+    background: var(--input-bg);
+    border: 1px solid rgba(0, 240, 255, 0.25);
+    border-radius: 11px;
+    color: #ffffff;
+    padding: 11px 12px;
+    font-size: 13.5px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  select:focus, input:focus, textarea:focus {
+    border-color: var(--cyan);
+    box-shadow: 0 0 10px rgba(0, 240, 255, 0.25);
+  }
+
+  .row-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  /* DIRECT TOUCH UPLOAD BOXES (MOBILE CHROME COMPATIBLE) */
+  .upload-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .upload-box {
+    position: relative;
+    background: linear-gradient(160deg, #101a2e, #0b1220);
+    border: 1.5px dashed rgba(0, 240, 255, 0.45);
+    border-radius: 14px;
+    padding: 16px 10px;
+    text-align: center;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.2s;
+  }
+
+  .upload-box:active {
+    transform: scale(0.98);
+    border-color: var(--cyan);
+  }
+
+  .upload-box.loaded {
+    border-style: solid;
+    border-color: var(--green);
+    background: rgba(0, 230, 118, 0.08);
+  }
+
+  .upload-box input[type="file"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 5;
+  }
+
+  .upload-icon {
+    font-size: 24px;
+    margin-bottom: 5px;
+    display: block;
+  }
+
+  .upload-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: #ffffff;
+    display: block;
+  }
+
+  .upload-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+    display: block;
+    margin-top: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* BUTTON PILLS & CHIPS */
+  .chip-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-bottom: 12px;
+  }
+
+  .chip {
+    background: var(--input-bg);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    color: #cbd5e1;
+    padding: 7px 12px;
+    border-radius: 10px;
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+  }
+
+  .chip.active {
+    background: linear-gradient(135deg, rgba(0, 240, 255, 0.22), rgba(157, 78, 221, 0.28));
+    border-color: var(--cyan);
+    color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+  }
+
+  .image-adjustments { margin: 8px 0 12px; padding: 12px; background: rgba(255,255,255,.035); border: 1px solid rgba(0,240,255,.18); border-radius: 12px; }
+  .image-adjustments input[type="range"] { width: 100%; accent-color: var(--cyan); }
+  .range-line { display:flex; justify-content:space-between; gap:10px; align-items:center; font-size:12px; color:#cbd5e1; margin-bottom:7px; }
+  .custom-loop-row { display:grid; grid-template-columns:1fr auto; gap:9px; align-items:end; margin: 2px 0 14px; }
+  .custom-loop-row input { min-width:0; width:100%; background:var(--input-bg); border:1px solid rgba(0,240,255,.25); border-radius:11px; color:#fff; padding:11px 12px; font-size:13.5px; }
+  .custom-loop-row button { border:0; border-radius:10px; padding:11px 14px; color:#06101a; background:var(--cyan); font-weight:800; }
+
+  /* CANVAS PREVIEW */
+  .canvas-wrapper {
+    position: relative;
+    width: 100%;
+    background: #04070d;
+    border-radius: 14px;
+    border: 1px solid rgba(0, 240, 255, 0.35);
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+
+  canvas {
+    width: 100%;
+    height: auto;
+    max-height: 440px;
+    object-fit: contain;
+    display: block;
+  }
+
+  .live-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: rgba(6, 10, 18, 0.78);
+    border: 1px solid var(--cyan);
+    color: var(--cyan);
+    font-size: 10.5px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 8px;
+    pointer-events: none;
+  }
+
+  /* ACTION BUTTONS */
+  .btn {
+    width: 100%;
+    padding: 13px 16px;
+    border: none;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: transform 0.15s, box-shadow 0.2s;
+  }
+
+  .btn:active {
+    transform: scale(0.98);
+  }
+
+  .btn-primary {
+    background: linear-gradient(90deg, #00d2ff, #7b2cbf);
+    color: #ffffff;
+    box-shadow: 0 4px 18px rgba(0, 210, 255, 0.35);
+  }
+
+  .btn-success {
+    background: linear-gradient(90deg, #00c853, #009688);
+    color: #ffffff;
+    box-shadow: 0 4px 18px rgba(0, 200, 83, 0.35);
+  }
+
+  .btn-outline {
+    background: var(--input-bg);
+    border: 1px solid var(--border-neon);
+    color: var(--cyan);
+  }
+
+  .btn-danger {
+    background: rgba(255, 42, 133, 0.15);
+    border: 1px solid rgba(255, 42, 133, 0.45);
+    color: #ff6b9d;
+    padding: 10px;
+    font-size: 12.5px;
+  }
+
+  /* PROGRESS BAR */
+  .progress-box {
+    display: none;
+    margin-top: 10px;
+    background: #0a101d;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid var(--cyan);
+  }
+
+  .progress-bar-bg {
+    width: 100%;
+    height: 8px;
+    background: #1e293b;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 6px;
+  }
+
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--cyan), var(--pink));
+    transition: width 0.2s;
+  }
+
+  /* =====================================================================
+     AD CONTAINERS STYLING (AUTO-COLLAPSES IF NO AD SCRIPT INSERTED YET)
+     ===================================================================== */
+  .ad-slot-wrapper {
+    width: 100%;
+    text-align: center;
+    overflow: hidden;
+    border-radius: 12px;
+  }
+
+  .ad-slot-wrapper:empty {
+    display: none;
+  }
+
+  .ad-tag-label {
+    font-size: 9.5px;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 3px;
+    display: block;
+  }
+
+  /* STICKY BOTTOM MINI BANNER AD (ALWAYS ACCESSIBLE WITHOUT BLOCKING UI) */
+  .sticky-bottom-ad {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(6, 10, 18, 0.94);
+    border-top: 1px solid rgba(0, 240, 255, 0.25);
+    z-index: 900;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4px 0;
+    backdrop-filter: blur(8px);
+  }
+
+  .sticky-bottom-ad:empty {
+    display: none;
+  }
+
+  /* MODAL POPUPS (WELCOME INTERSTITIAL AD, DOWNLOAD AD, POLICY MODALS) */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(2, 6, 14, 0.88);
+    backdrop-filter: blur(6px);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+  }
+
+  .modal-box {
+    background: #0d1526;
+    border: 1.5px solid var(--cyan);
+    border-radius: 18px;
+    width: 100%;
+    max-width: 440px;
+    padding: 18px;
+    box-shadow: 0 0 35px rgba(0, 240, 255, 0.35);
+    position: relative;
+    max-height: 88vh;
+    overflow-y: auto;
+  }
+
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .modal-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--cyan);
+  }
+
+  .close-modal-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    padding: 5px 11px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .ad-interstitial-box {
+    min-height: 250px;
+    background: #070c16;
+    border: 1px dashed rgba(0, 240, 255, 0.35);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 12px;
+    margin: 10px 0;
+    text-align: center;
+  }
+
+  /* FOOTER & COMPLIANCE LINKS */
+  .footer {
+    text-align: center;
+    font-size: 11.5px;
+    color: var(--text-muted);
+    margin-top: 8px;
+    line-height: 1.6;
+  }
+
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    margin: 8px 0;
+  }
+
+  .footer-links a {
+    color: var(--cyan);
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<div class="app-container">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="logo-box">
+      <span class="logo-letter">M</span>
+    </div>
+    <h1 class="app-title">Meeko AI Editor</h1>
+    <p class="app-subtitle">Next-Gen Photo + Looping Audio &amp; Visual Effects Studio</p>
+  </header>
+
+  <!-- =====================================================================
+       AD SLOT 1: TOP SMALL BANNER (320x50 / Responsive)
+       ===================================================================== -->
+  <div class="ad-slot-wrapper" id="top-banner-ad">
+    <!-- PASTE YOUR TOP BANNER AD CODE (AdSense / Adsterra 320x50) BELOW THIS LINE -->
+    
+  </div>
+
+  <!-- SECTION 1: UNIVERSAL EXTERNAL API CONNECTOR (OPTIONAL) -->
+  <section class="card">
+    <div class="section-title">
+      <span>⚡ 1. External AI API Connector (Optional)</span>
+      <span class="badge-status" id="engineStatusBadge">Offline Engine Ready</span>
+    </div>
+
+    <div class="row-2" style="margin-bottom: 10px;">
+      <div>
+        <label for="aiProvider">Select AI Provider</label>
+        <select id="aiProvider">
+          <option value="offline">Built-in Offline AI (Free)</option>
+          <option value="gemini">Google Gemini API</option>
+          <option value="openai">ChatGPT / OpenAI API</option>
+          <option value="groq">Groq Cloud API</option>
+          <option value="deepseek">DeepSeek API</option>
+          <option value="openrouter">OpenRouter API</option>
+          <option value="custom">Custom External Endpoint</option>
+        </select>
+      </div>
+      <div>
+        <label for="apiKeyInput">Paste API Key</label>
+        <input type="password" id="apiKeyInput" placeholder="sk-... or AIza...">
+      </div>
+    </div>
+
+    <div id="customEndpointBox" style="display: none; margin-bottom: 10px;">
+      <label for="customUrlInput">Custom API Endpoint URL</label>
+      <input type="text" id="customUrlInput" placeholder="https://api.yourdomain.com/v1/chat/completions">
+    </div>
+
+    <div class="row-2">
+      <button type="button" class="btn btn-outline" id="saveApiBtn">💾 Save &amp; Connect API</button>
+      <button type="button" class="btn btn-danger" id="clearApiBtn">🗑️ Clear Key</button>
+    </div>
+  </section>
+
+  <!-- SECTION 2: ADD PHOTO, AUDIO & LOOPING (1X TO 10X) -->
+  <section class="card">
+    <div class="section-title">
+      <span>🎬 2. Add Photo, Audio &amp; Repeat Loop</span>
+      <span style="font-size: 11px; color: var(--gold);" id="durationDisplay">00:00</span>
+    </div>
+
+    <div class="upload-grid">
+      <!-- PHOTO UPLOAD -->
+      <div class="upload-box" id="photoBox">
+        <input type="file" id="photoInput" accept="image/*">
+        <span class="upload-icon">🖼️</span>
+        <span class="upload-label">Add Image</span>
+        <span class="upload-sub" id="photoFileName">Tap to choose photo</span>
+      </div>
+
+      <!-- AUDIO UPLOAD -->
+      <div class="upload-box" id="audioBox">
+        <input type="file" id="audioInput" accept="audio/*">
+        <span class="upload-icon">🎵</span>
+        <span class="upload-label">Add Audio</span>
+        <span class="upload-sub" id="audioFileName">Tap to choose song</span>
+      </div>
+    </div>
+
+    <div class="image-adjustments">
+      <div class="range-line"><label for="imageScale" style="margin:0">🖼️ Image size inside video frame</label><strong id="imageScaleValue">100%</strong></div>
+      <input type="range" id="imageScale" min="50" max="150" value="100" step="1">
+      <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text-muted)"><span>Smaller 50%</span><span>Fit frame 100%</span><span>Larger 150%</span></div>
+      <p style="font-size:11px;color:var(--text-muted);margin-top:7px">Default setting shows the complete photo inside the frame. Increase size to zoom in; edges may then be cropped intentionally.</p>
+    </div>
+
+    <!-- AUDIO REPEAT MULTIPLIER (1X TO 10X) -->
+    <label>🔁 Repeat Audio on Photo (1x up to 10x)</label>
+    <div class="chip-group" id="loopChips">
+      <div class="chip active" data-loop="1">1x</div><div class="chip" data-loop="2">2x</div>
+      <div class="chip" data-loop="3">3x</div><div class="chip" data-loop="4">4x</div>
+      <div class="chip" data-loop="5">5x</div><div class="chip" data-loop="6">6x</div>
+      <div class="chip" data-loop="7">7x</div><div class="chip" data-loop="8">8x</div>
+      <div class="chip" data-loop="9">9x</div><div class="chip" data-loop="10">10x</div>
+    </div>
+    <div class="custom-loop-row">
+      <div><label for="customLoopCount">Custom repeats (11 to 10,000)</label><input id="customLoopCount" type="number" min="11" max="10000" step="1" inputmode="numeric" placeholder="مثلاً 100 یا 1000"></div>
+      <button type="button" id="applyCustomLoop">Apply</button>
+    </div>
+    <p id="loopDurationHint" style="font-size:11px;color:var(--text-muted);margin:-5px 0 12px;line-height:1.5">Custom repeat count can create very long videos. Export time depends on the song length.</p>
+
+    <!-- VISUAL EFFECTS (SNOWFALL, SHIMMER, DAILY, SILVER, RAIN) -->
+    <label>✨ Add Animated Visual Effect</label>
+    <div class="chip-group" id="effectChips">
+      <div class="chip active" data-effect="snowfall">❄️ Snowfall</div>
+      <div class="chip" data-effect="shimmer">✨ Shimmer</div>
+      <div class="chip" data-effect="silver">🪙 Silver Spark</div>
+      <div class="chip" data-effect="daily">☀️ Daily Glow</div>
+      <div class="chip" data-effect="rain">🌧️ Rain</div>
+      <div class="chip" data-effect="none">🚫 None</div>
+    </div>
+
+    <!-- AI PHOTO ENHANCE & WRITE TEXT -->
+    <div class="row-2" style="margin-bottom: 10px;">
+      <div>
+        <label for="enhanceMode">🪄 Photo Quality Filter</label>
+        <select id="enhanceMode">
+          <option value="none">Original Photo</option>
+          <option value="hd">AI HD Clean &amp; Sharp</option>
+          <option value="vivid">Vibrant Studio Color</option>
+          <option value="cinematic">Moody Dark Cinema</option>
+        </select>
+      </div>
+      <div>
+        <label for="aspectRatio">📐 Video Frame Size</label>
+        <select id="aspectRatio">
+          <option value="9:16">9:16 (TikTok / Reels)</option>
+          <option value="1:1">1:1 (Square Post)</option>
+          <option value="16:9">16:9 (YouTube HD)</option>
+        </select>
+      </div>
+    </div>
+
+    <div style="margin-bottom: 10px;">
+      <label for="overlayText">✍️ Write Text / Poetry on Photo</label>
+      <div style="display: flex; gap: 8px;">
+        <input type="text" id="overlayText" placeholder="Write Urdu or English text on photo...">
+        <button type="button" class="btn btn-outline" id="aiSuggestBtn" style="width: auto; padding: 0 14px; white-space: nowrap;">🤖 AI Caption</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================================
+       AD SLOT 2: MIDDLE IN-FEED SMALL BANNER
+       ===================================================================== -->
+  <div class="ad-slot-wrapper" id="middle-banner-ad">
+    <!-- PASTE YOUR MIDDLE IN-CONTENT AD CODE BELOW THIS LINE -->
+    
+  </div>
+
+  <!-- SECTION 3: LIVE STUDIO PREVIEW & EXPORT (720P / 1080P) -->
+  <section class="card">
+    <div class="section-title">
+      <span>🎥 3. Live Preview &amp; Export Video</span>
+      <span style="font-size: 11px; color: var(--cyan);" id="loopInfoText">Loop: 1x</span>
+    </div>
+
+    <div class="canvas-wrapper">
+      <span class="live-badge">● LIVE PREVIEW</span>
+      <canvas id="studioCanvas" width="720" height="1280"></canvas>
+    </div>
+
+    <div class="row-2" style="margin-bottom: 10px;">
+      <button type="button" class="btn btn-outline" id="playPreviewBtn">▶️ Play Audio Preview</button>
+      <select id="exportRes">
+        <option value="720">720p HD Resolution</option>
+        <option value="1080" selected>1080p Full HD</option>
+      </select>
+    </div>
+
+    <div class="row-2">
+      <button type="button" class="btn btn-primary" id="exportVideoBtn">🎬 Create &amp; Download Video</button>
+      <button type="button" class="btn btn-success" id="savePhotoBtn">📸 Save HD Photo</button>
+    </div>
+
+    <div class="progress-box" id="progressBox">
+      <div style="display: flex; justify-content: space-between; font-size: 12px; color: var(--cyan);">
+        <span id="progressLabel">Rendering HD Video...</span>
+        <span id="progressPercent">0%</span>
+      </div>
+      <div class="progress-bar-bg">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEO & ADSENSE COMPLIANCE CONTENT -->
+  <section class="card" style="font-size: 12.5px; color: var(--text-muted); line-height: 1.65;">
+    <h2 style="font-size: 15px; color: #fff; margin-bottom: 6px;">About Meeko AI Editor</h2>
+    <p>Meeko AI Editor is a fast, browser-based photo and audio video studio. Combine your favorite images with music tracks, repeat audio loops from 1x up to 10,000x, apply atmospheric effects like Snowfall, Shimmer, Silver Sparkles, and Rain, and export crisp 720p or 1080p HD videos directly on your device without server delays.</p>
+    <div class="footer-links">
+      <a onclick="openPolicyModal('privacy')">Privacy Policy</a>
+      <a onclick="openPolicyModal('terms')">Terms of Service</a>
+      <a onclick="openPolicyModal('contact')">Contact Us</a>
+    </div>
+    <div class="footer">© 2026 Meeko AI Editor. All Rights Reserved.</div>
+  </section>
+
+</div>
+
+<!-- =====================================================================
+     AD SLOT 3: STICKY BOTTOM SMALL BANNER (ALWAYS VISIBLE & NON-INTRUSIVE)
+     ===================================================================== -->
+<div class="sticky-bottom-ad" id="sticky-bottom-ad">
+  <!-- PASTE YOUR STICKY BOTTOM MINI BANNER AD (320x50) CODE BELOW THIS LINE -->
+  
+</div>
+
+<!-- =====================================================================
+     AD SLOT 4: FIRST-OPEN LARGE WELCOME INTERSTITIAL AD MODAL
+     Opens automatically once per session when app loads!
+     ===================================================================== -->
+<div class="modal-overlay" id="welcomeAdModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span class="modal-title">✨ Welcome to Meeko AI Editor</span>
+      <button type="button" class="close-modal-btn" id="closeWelcomeAdBtn">Continue to App ✕</button>
+    </div>
+    <p style="font-size: 12px; color: var(--text-muted); text-align: center;">Sponsored Advertisement</p>
+    <div class="ad-interstitial-box" id="welcome-large-ad-container">
+      <!-- PASTE YOUR LARGE 300x250 OR 336x280 DISPLAY AD CODE BELOW THIS LINE -->
+      <div style="color: #64748b; font-size: 12px;">
+        <p style="font-weight: 700; color: var(--cyan); margin-bottom: 4px;">Meeko AI Pro Studio</p>
+        <p>Create HD Photo + Looping Music Videos Free</p>
+      </div>
+    </div>
+    <button type="button" class="btn btn-primary" onclick="document.getElementById('welcomeAdModal').style.display='none'">🚀 Start Editing Now</button>
+  </div>
+</div>
+
+<!-- =====================================================================
+     AD SLOT 5: PRE-DOWNLOAD REWARD / INTERSTITIAL AD MODAL
+     Opens when user clicks Download Video, plays ad during preparation!
+     ===================================================================== -->
+<div class="modal-overlay" id="downloadAdModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span class="modal-title">🎬 Preparing Your HD File</span>
+      <button type="button" class="close-modal-btn" id="closeDownloadAdBtn" style="display: none;">✕</button>
+    </div>
+    <p style="font-size: 12px; color: var(--text-muted); text-align: center;" id="downloadCountdownText">Your download starts in 4 seconds...</p>
+    <div class="ad-interstitial-box" id="download-large-ad-container">
+      <!-- PASTE YOUR DOWNLOAD POPUP 300x250 AD CODE BELOW THIS LINE -->
+      <div style="color: #64748b; font-size: 12px;">
+        <p style="font-weight: 700; color: var(--gold); margin-bottom: 4px;">Preparing High-Definition Export</p>
+        <p>Thank you for supporting Meeko AI Editor</p>
+      </div>
+    </div>
+    <button type="button" class="btn btn-success" id="confirmDownloadBtn" disabled>⏳ Please wait (4s)...</button>
+  </div>
+</div>
+
+<!-- POLICY & CONTACT MODAL -->
+<div class="modal-overlay" id="policyModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span class="modal-title" id="policyTitle">Privacy Policy</span>
+      <button type="button" class="close-modal-btn" onclick="document.getElementById('policyModal').style.display='none'">Close ✕</button>
+    </div>
+    <div id="policyBody" style="font-size: 13px; color: #cbd5e1; line-height: 1.6;"></div>
+  </div>
+</div>
+
+<!-- HIDDEN AUDIO ELEMENT -->
+<audio id="bgAudio" crossorigin="anonymous" preload="auto"></audio>
+
+<script>
+  // =========================================================================
+  // 1. STATE & VARIABLES
+  // =========================================================================
+  const canvas = document.getElementById('studioCanvas');
+  const ctx = canvas.getContext('2d');
+  const bgAudio = document.getElementById('bgAudio');
+
+  let uploadedImg = null;
+  let uploadedImageFile = null;
+  let uploadedAudioFile = null;
+  let audioLoaded = false;
+  let audioDuration = 5; // default 5s if no audio uploaded
+  let loopCount = 1;
+  let imageScale = 1;
+  let currentEffect = 'snowfall';
+  let enhanceFilter = 'none';
+  let overlayText = '';
+  let isPlayingPreview = false;
+  let currentLoopIteration = 1;
+  let particles = [];
+  let pendingExportType = null; // 'video' or 'photo'
+
+  // =========================================================================
+  // 2. SMART AD TIMING SYSTEM (FIRST OPEN + DOWNLOAD INTERSTITIAL)
+  // =========================================================================
+  window.addEventListener('DOMContentLoaded', () => {
+    loadSavedApi();
+    initParticles();
+    requestAnimationFrame(renderLoop);
+
+    // Show Large Welcome Ad once per session on first open
+    if (!sessionStorage.getItem('meeko_welcome_shown')) {
+      setTimeout(() => {
+        document.getElementById('welcomeAdModal').style.display = 'flex';
+        sessionStorage.setItem('meeko_welcome_shown', 'true');
+      }, 600);
+    }
+  });
+
+  document.getElementById('closeWelcomeAdBtn').addEventListener('click', () => {
+    document.getElementById('welcomeAdModal').style.display = 'none';
+  });
+
+  function triggerDownloadWithAd(exportType) {
+    pendingExportType = exportType;
+    const modal = document.getElementById('downloadAdModal');
+    const confirmBtn = document.getElementById('confirmDownloadBtn');
+    const countdownText = document.getElementById('downloadCountdownText');
+    const closeBtn = document.getElementById('closeDownloadAdBtn');
+    modal.style.display = 'flex';
+    confirmBtn.disabled = false;
+    confirmBtn.textContent = exportType === 'video' ? '⬇️ Start Video Rendering Now' : '⬇️ Download HD Photo Now';
+    countdownText.textContent = 'Ready. Click below to continue.';
+    closeBtn.style.display = 'inline-block';
+  }
+
+  document.getElementById('closeDownloadAdBtn').addEventListener('click', () => {
+    document.getElementById('downloadAdModal').style.display = 'none';
+  });
+
+  document.getElementById('confirmDownloadBtn').addEventListener('click', () => {
+    document.getElementById('downloadAdModal').style.display = 'none';
+    if (pendingExportType === 'photo') {
+      executePhotoDownload();
+    } else if (pendingExportType === 'video') {
+      executeVideoRender();
+    }
+  });
+
+  // =========================================================================
+  // 3. EXTERNAL API CONNECTOR (GEMINI, OPENAI, GROQ, DEEPSEEK, CUSTOM)
+  // =========================================================================
+  const aiProviderEl = document.getElementById('aiProvider');
+  const apiKeyInputEl = document.getElementById('apiKeyInput');
+  const customEndpointBox = document.getElementById('customEndpointBox');
+  const customUrlInput = document.getElementById('customUrlInput');
+  const engineStatusBadge = document.getElementById('engineStatusBadge');
+
+  aiProviderEl.addEventListener('change', () => {
+    customEndpointBox.style.display = aiProviderEl.value === 'custom' ? 'block' : 'none';
+  });
+
+  document.getElementById('saveApiBtn').addEventListener('click', () => {
+    const provider = aiProviderEl.value;
+    const key = apiKeyInputEl.value.trim();
+    const customUrl = customUrlInput.value.trim();
+
+    localStorage.setItem('meeko_ai_provider', provider);
+    localStorage.setItem('meeko_ai_key', key);
+    localStorage.setItem('meeko_ai_custom_url', customUrl);
+
+    if (provider !== 'offline' && key.length > 5) {
+      engineStatusBadge.textContent = `Connected: ${provider.toUpperCase()}`;
+      engineStatusBadge.style.color = '#00f0ff';
+      alert(`✅ ${provider.toUpperCase()} API successfully linked!`);
+    } else {
+      engineStatusBadge.textContent = 'Offline Engine Ready';
+      engineStatusBadge.style.color = '#00e676';
+      alert('✅ Built-in Offline AI Engine is active (Zero Cost).');
+    }
+  });
+
+  document.getElementById('clearApiBtn').addEventListener('click', () => {
+    localStorage.removeItem('meeko_ai_provider');
+    localStorage.removeItem('meeko_ai_key');
+    localStorage.removeItem('meeko_ai_custom_url');
+    aiProviderEl.value = 'offline';
+    apiKeyInputEl.value = '';
+    customUrlInput.value = '';
+    customEndpointBox.style.display = 'none';
+    engineStatusBadge.textContent = 'Offline Engine Ready';
+    alert('API Key cleared. Switched to Free Offline Mode.');
+  });
+
+  function loadSavedApi() {
+    const p = localStorage.getItem('meeko_ai_provider') || 'offline';
+    const k = localStorage.getItem('meeko_ai_key') || '';
+    const u = localStorage.getItem('meeko_ai_custom_url') || '';
+    aiProviderEl.value = p;
+    apiKeyInputEl.value = k;
+    customUrlInput.value = u;
+    if (p === 'custom') customEndpointBox.style.display = 'block';
+    if (p !== 'offline' && k.length > 5) {
+      engineStatusBadge.textContent = `Connected: ${p.toUpperCase()}`;
+      engineStatusBadge.style.color = '#00f0ff';
+    }
+  }
+
+  // AI CAPTION GENERATOR (USES EXTERNAL API IF SET, OTHERWISE OFFLINE QUOTES)
+  document.getElementById('aiSuggestBtn').addEventListener('click', async () => {
+    const btn = document.getElementById('aiSuggestBtn');
+    const provider = aiProviderEl.value;
+    const key = apiKeyInputEl.value.trim();
+
+    const offlineCaptions = [
+      "✨ Silent nights & golden memories ✨",
+      "🌙 دل کی باتیں خاموشی کے ساتھ",
+      "❄️ Falling snow, peaceful soul ❄️",
+      "🎵 Feel every beat of the moment",
+      "💫 خوابوں کی دنیا میں ایک نیا سفر"
+    ];
+
+    if (provider === 'offline' || !key) {
+      const randomLine = offlineCaptions[Math.floor(Math.random() * offlineCaptions.length)];
+      document.getElementById('overlayText').value = randomLine;
+      overlayText = randomLine;
+      return;
+    }
+
+    btn.textContent = '⏳...';
+    try {
+      let generated = '';
+      if (provider === 'gemini') {
+        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${key}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: "Write 1 short poetic aesthetic caption (max 7 words) for a photo music video." }] }]
+          })
+        });
+        const data = await res.json();
+        generated = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+      } else {
+        let url = 'https://api.openai.com/v1/chat/completions';
+        let model = 'gpt-4o-mini';
+        if (provider === 'groq') { url = 'https://api.groq.com/openai/v1/chat/completions'; model = 'llama-3.1-8b-instant'; }
+        if (provider === 'deepseek') { url = 'https://api.deepseek.com/chat/completions'; model = 'deepseek-chat'; }
+        if (provider === 'openrouter') { url = 'https://openrouter.ai/api/v1/chat/completions'; model = 'openai/gpt-4o-mini'; }
+        if (provider === 'custom' && customUrlInput.value.trim()) { url = customUrlInput.value.trim(); }
+
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
+          body: JSON.stringify({
+            model: model,
+            messages: [{ role: 'user', content: 'Write 1 short poetic aesthetic caption (max 7 words) for a photo music video.' }]
+          })
+        });
+        const data = await res.json();
+        generated = data?.choices?.[0]?.message?.content || '';
+      }
+
+      if (generated) {
+        const cleanText = generated.replace(/["*]/g, '').trim();
+        document.getElementById('overlayText').value = cleanText;
+        overlayText = cleanText;
+      } else {
+        throw new Error('Empty response');
+      }
+    } catch (err) {
+      const fallback = offlineCaptions[Math.floor(Math.random() * offlineCaptions.length)];
+      document.getElementById('overlayText').value = fallback;
+      overlayText = fallback;
+    } finally {
+      btn.textContent = '🤖 AI Caption';
+    }
+  });
+
+  // =========================================================================
+  // 4. DIRECT MOBILE TOUCH PHOTO & AUDIO UPLOAD HANDLERS
+  // =========================================================================
+  document.getElementById('photoInput').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    uploadedImageFile = file;
+    document.getElementById('photoFileName').textContent = file.name;
+    document.getElementById('photoBox').classList.add('loaded');
+
+    const reader = new FileReader();
+    reader.onload = function(event) {
+      const img = new Image();
+      img.onload = function() {
+        uploadedImg = img;
+      };
+      img.src = event.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+
+  document.getElementById('imageScale').addEventListener('input', (e) => {
+    imageScale = Number(e.target.value) / 100;
+    document.getElementById('imageScaleValue').textContent = `${e.target.value}%`;
+  });
+
+  document.getElementById('audioInput').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    uploadedAudioFile = file;
+    document.getElementById('audioFileName').textContent = file.name;
+    document.getElementById('audioBox').classList.add('loaded');
+
+    const audioURL = URL.createObjectURL(file);
+    bgAudio.src = audioURL;
+    bgAudio.load();
+
+    bgAudio.onloadedmetadata = function() {
+      audioLoaded = true;
+      audioDuration = bgAudio.duration || 5;
+      updateDurationUI();
+    };
+  });
+
+  function updateDurationUI() {
+    const totalSec = Math.round(audioDuration * loopCount);
+    const mins = String(Math.floor(totalSec / 60)).padStart(2, '0');
+    const secs = String(totalSec % 60).padStart(2, '0');
+    document.getElementById('durationDisplay').textContent = `Total: ${mins}:${secs} (${loopCount}x)`;
+    document.getElementById('loopInfoText').textContent = `Loop: ${loopCount}x`;
+    const totalMinutes = totalSec / 60;
+    document.getElementById('loopDurationHint').textContent = `Final video length: ${totalMinutes < 1 ? totalSec + ' seconds' : totalMinutes.toFixed(1) + ' minutes'}. The browser will render the file locally with FFmpeg; speed depends on your device and available memory.`;
+  }
+
+  // =========================================================================
+  // 5. CHIPS, FILTERS & ASPECT RATIO CONTROLS
+  // =========================================================================
+  function setLoopCount(value) {
+    const n = Number(value);
+    if (!Number.isInteger(n) || n < 1 || n > 10000) {
+      alert('Repeat count must be a whole number from 1 to 10,000.');
+      return false;
+    }
+    loopCount = n;
+    document.querySelectorAll('#loopChips .chip').forEach(c => c.classList.toggle('active', Number(c.dataset.loop) === n));
+    document.getElementById('customLoopCount').value = n > 10 ? n : '';
+    updateDurationUI();
+    return true;
+  }
+
+  document.querySelectorAll('#loopChips .chip').forEach(chip => {
+    chip.addEventListener('click', () => setLoopCount(chip.dataset.loop));
+  });
+  document.getElementById('applyCustomLoop').addEventListener('click', () => {
+    const value = document.getElementById('customLoopCount').value.trim();
+    if (!value || Number(value) < 11) { alert('Enter a custom repeat count from 11 to 10,000.'); return; }
+    setLoopCount(value);
+  });
+  document.getElementById('customLoopCount').addEventListener('keydown', e => {
+    if (e.key === 'Enter') document.getElementById('applyCustomLoop').click();
+  });
+
+  document.querySelectorAll('#effectChips .chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('#effectChips .chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      currentEffect = chip.getAttribute('data-effect');
+      initParticles();
+    });
+  });
+
+  document.getElementById('enhanceMode').addEventListener('change', (e) => {
+    enhanceFilter = e.target.value;
+  });
+
+  document.getElementById('overlayText').addEventListener('input', (e) => {
+    overlayText = e.target.value;
+  });
+
+  document.getElementById('aspectRatio').addEventListener('change', (e) => {
+    const ratio = e.target.value;
+    if (ratio === '9:16') { canvas.width = 720; canvas.height = 1280; }
+    else if (ratio === '1:1') { canvas.width = 1080; canvas.height = 1080; }
+    else if (ratio === '16:9') { canvas.width = 1280; canvas.height = 720; }
+    initParticles();
+  });
+
+  // =========================================================================
+  // 6. AUDIO PREVIEW WITH 1X-10X LOOPING
+  // =========================================================================
+  const playPreviewBtn = document.getElementById('playPreviewBtn');
+
+  playPreviewBtn.addEventListener('click', () => {
+    if (!audioLoaded) {
+      alert('Please tap "Add Audio" first to select a song or voice file.');
+      return;
+    }
+
+    if (!isPlayingPreview) {
+      currentLoopIteration = 1;
+      bgAudio.currentTime = 0;
+      bgAudio.play();
+      isPlayingPreview = true;
+      playPreviewBtn.textContent = `⏹️ Stop Preview (1/${loopCount})`;
+    } else {
+      bgAudio.pause();
+      bgAudio.currentTime = 0;
+      isPlayingPreview = false;
+      playPreviewBtn.textContent = '▶️ Play Audio Preview';
+    }
+  });
+
+  bgAudio.addEventListener('ended', () => {
+    if (exportInProgress) return; // Export has its own exact repeat handler.
+    if (isPlayingPreview && currentLoopIteration < loopCount) {
+      currentLoopIteration++;
+      playPreviewBtn.textContent = `⏹️ Stop Preview (${currentLoopIteration}/${loopCount})`;
+      bgAudio.currentTime = 0;
+      bgAudio.play();
+    } else {
+      isPlayingPreview = false;
+      playPreviewBtn.textContent = '▶️ Play Audio Preview';
+    }
+  });
+
+  // =========================================================================
+  // 7. ANIMATED VISUAL EFFECTS ENGINE (SNOWFALL, SHIMMER, SILVER, DAILY, RAIN)
+  // =========================================================================
+  function initParticles() {
+    particles = [];
+    const count = currentEffect === 'rain' ? 110 : 75;
+    for (let i = 0; i < count; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 4 + 1.5,
+        speedY: Math.random() * 2.5 + 1,
+        speedX: (Math.random() - 0.5) * 1.2,
+        alpha: Math.random(),
+        phase: Math.random() * Math.PI * 2
+      });
+    }
+  }
+
+  function renderLoop(timestamp) {
+    const w = canvas.width;
+    const h = canvas.height;
+
+    ctx.clearRect(0, 0, w, h);
+
+    // 1. Apply Photo Enhancement Filter
+    if (enhanceFilter === 'hd') {
+      ctx.filter = 'contrast(1.14) saturate(1.15) brightness(1.04)';
+    } else if (enhanceFilter === 'vivid') {
+      ctx.filter = 'contrast(1.22) saturate(1.45) brightness(1.06)';
+    } else if (enhanceFilter === 'cinematic') {
+      ctx.filter = 'contrast(1.28) saturate(0.85) brightness(0.92)';
+    } else {
+      ctx.filter = 'none';
+    }
+
+    // 2. Draw Uploaded Photo or Stylish Default Neon Backdrop
+    if (uploadedImg) {
+      // Contain: fit the entire image within the video frame without overflow.
+      const fitScale = Math.min(w / uploadedImg.width, h / uploadedImg.height);
+      const drawW = uploadedImg.width * fitScale * imageScale;
+      const drawH = uploadedImg.height * fitScale * imageScale;
+      const offsetX = (w - drawW) / 2;
+      const offsetY = (h - drawH) / 2;
+      ctx.save();
+      ctx.beginPath(); ctx.rect(0, 0, w, h); ctx.clip();
+      ctx.drawImage(uploadedImg, offsetX, offsetY, drawW, drawH);
+      ctx.restore();
+    } else {
+      const grad = ctx.createLinearGradient(0, 0, w, h);
+      grad.addColorStop(0, '#071124');
+      grad.addColorStop(0.5, '#131c38');
+      grad.addColorStop(1, '#080e1c');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, w, h);
+
+      ctx.filter = 'none';
+      ctx.fillStyle = 'rgba(0, 240, 255, 0.85)';
+      ctx.font = `bold ${Math.round(w * 0.055)}px Segoe UI, sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.fillText('Meeko AI Studio', w / 2, h / 2 - 15);
+      ctx.fillStyle = 'rgba(203, 213, 225, 0.75)';
+      ctx.font = `${Math.round(w * 0.032)}px Segoe UI, sans-serif`;
+      ctx.fillText('Tap "Add Image" & "Add Audio" above', w / 2, h / 2 + 28);
+    }
+
+    ctx.filter = 'none';
+
+    // 3. Draw Selected Particle Effect
+    if (currentEffect !== 'none') {
+      drawEffects(w, h, timestamp);
+    }
+
+    // 4. Draw Overlay Text
+    if (overlayText.trim() !== '') {
+      const fontSize = Math.round(w * 0.052);
+      ctx.font = `bold ${fontSize}px Segoe UI, Arial, sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.55)';
+      ctx.fillRect(w * 0.08, h * 0.81 - fontSize, w * 0.84, fontSize * 1.55);
+
+      ctx.fillStyle = '#ffffff';
+      ctx.shadowColor = '#00f0ff';
+      ctx.shadowBlur = 12;
+      ctx.fillText(overlayText, w / 2, h * 0.81);
+      ctx.shadowBlur = 0;
+    }
+
+    requestAnimationFrame(renderLoop);
+  }
+
+  function drawEffects(w, h, t) {
+    if (currentEffect === 'daily') {
+      const sunGrad = ctx.createRadialGradient(w * 0.8, h * 0.15, 10, w * 0.8, h * 0.15, w * 0.75);
+      const pulse = 0.22 + Math.sin(t * 0.002) * 0.08;
+      sunGrad.addColorStop(0, `rgba(255, 215, 100, ${pulse})`);
+      sunGrad.addColorStop(1, 'rgba(255, 180, 50, 0)');
+      ctx.fillStyle = sunGrad;
+      ctx.fillRect(0, 0, w, h);
+    }
+
+    particles.forEach(p => {
+      if (currentEffect === 'snowfall') {
+        p.y += p.speedY;
+        p.x += Math.sin(t * 0.0015 + p.phase) * 0.8;
+        if (p.y > h) { p.y = -10; p.x = Math.random() * w; }
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.88)';
+        ctx.fill();
+      } else if (currentEffect === 'shimmer') {
+        const twinkle = Math.abs(Math.sin(t * 0.004 + p.phase));
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r * 1.1, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(0, 240, 255, ${twinkle})`;
+        ctx.fill();
+      } else if (currentEffect === 'silver') {
+        p.y -= p.speedY * 0.6;
+        if (p.y < -10) { p.y = h + 10; p.x = Math.random() * w; }
+        const shine = Math.abs(Math.cos(t * 0.005 + p.phase));
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r * 1.2, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(226, 232, 240, ${shine})`;
+        ctx.fill();
+      } else if (currentEffect === 'daily') {
+        p.y -= p.speedY * 0.4;
+        if (p.y < -10) { p.y = h + 10; p.x = Math.random() * w; }
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r * 1.3, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255, 223, 128, 0.55)';
+        ctx.fill();
+      } else if (currentEffect === 'rain') {
+        p.y += p.speedY * 5.5;
+        p.x -= 1.2;
+        if (p.y > h) { p.y = -20; p.x = Math.random() * w; }
+        ctx.strokeStyle = 'rgba(174, 214, 241, 0.6)';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(p.x, p.y);
+        ctx.lineTo(p.x - 3, p.y + 16);
+        ctx.stroke();
+      }
+    });
+  }
+
+  // =========================================================================
+  // 8. EXPORT HD PHOTO & RENDER LOOPED VIDEO (720P / 1080P)
+  // =========================================================================
+  document.getElementById('savePhotoBtn').addEventListener('click', () => {
+    triggerDownloadWithAd('photo');
+  });
+
+  document.getElementById('exportVideoBtn').addEventListener('click', () => {
+    triggerDownloadWithAd('video');
+  });
+
+  function executePhotoDownload() {
+    const link = document.createElement('a');
+    link.download = `Meeko_AI_Photo_${Date.now()}.png`;
+    link.href = canvas.toDataURL('image/png', 1.0);
+    link.click();
+  }
+
+  // Browser-only FFmpeg renderer. Media is processed on this device; no server upload.
+  let ffmpegInstance = null;
+  let ffmpegLoadPromise = null;
+  let exportInProgress = false;
+
+  async function getFFmpeg() {
+    if (ffmpegInstance && ffmpegInstance.loaded) return ffmpegInstance;
+    if (ffmpegLoadPromise) return ffmpegLoadPromise;
+    ffmpegLoadPromise = (async () => {
+      const moduleUrl = 'https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/esm/index.js';
+      const utilUrl = 'https://cdn.jsdelivr.net/npm/@ffmpeg/util@0.12.1/dist/esm/index.js';
+      const [{ FFmpeg }, { toBlobURL }] = await Promise.all([import(moduleUrl), import(utilUrl)]);
+      const ffmpeg = new FFmpeg();
+      const coreBase = 'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.6/dist/umd';
+      const ffmpegBase = 'https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/esm';
+      // Convert the worker script to a same-origin blob URL. Without this,
+      // browsers block a Worker created directly from the jsDelivr URL.
+      // The ESM worker contains relative imports (./const.js and ./errors.js).
+      // A plain Blob URL cannot resolve those relative paths, which can leave
+      // FFmpeg silently stuck at 0%. Rewrite them to absolute CDN module URLs.
+      const [coreURL, wasmURL, workerResponse] = await Promise.all([
+        toBlobURL(`${coreBase}/ffmpeg-core.js`, 'text/javascript'),
+        toBlobURL(`${coreBase}/ffmpeg-core.wasm`, 'application/wasm'),
+        fetch(`${ffmpegBase}/worker.js`, { cache: 'force-cache' })
+      ]);
+      if (!workerResponse.ok) throw new Error(`Could not download FFmpeg worker.js (HTTP ${workerResponse.status}).`);
+      let workerSource = await workerResponse.text();
+      workerSource = workerSource.replace(/(from\s*|import\s*\()([\'\"])\.\/([^\'\"]+)\2/g,
+        (match, prefix, quote, file) => `${prefix}${quote}${ffmpegBase}/${file}${quote}`);
+      if (/from\s*[\'\"]\.\//.test(workerSource)) {
+        throw new Error('FFmpeg worker still contains unresolved relative imports.');
+      }
+      const classWorkerURL = URL.createObjectURL(new Blob([workerSource], { type: 'text/javascript' }));
+      const loadTimeout = new Promise((_, reject) => setTimeout(() => reject(new Error('FFmpeg engine loading timed out after 90 seconds. Check your internet connection and reload the page.')), 90000));
+      try {
+        await Promise.race([ffmpeg.load({ coreURL, wasmURL, classWorkerURL }), loadTimeout]);
+      } catch (loadError) {
+        try { ffmpeg.terminate(); } catch (_) {}
+        throw loadError;
+      } finally {
+        URL.revokeObjectURL(classWorkerURL);
+      }
+      ffmpegInstance = ffmpeg;
+      return ffmpeg;
+    })();
+    try { return await ffmpegLoadPromise; }
+    catch (error) { ffmpegLoadPromise = null; throw error; }
+  }
+
+  function canvasToPngBlob(sourceCanvas) {
+    return new Promise((resolve, reject) => {
+      sourceCanvas.toBlob(blob => blob ? resolve(blob) : reject(new Error('Could not prepare the image for video export.')), 'image/png');
+    });
+  }
+
+  async function executeVideoRender() {
+    if (exportInProgress) return;
+    if (!uploadedImg || !uploadedImageFile) { alert('Please add a photo before creating the video.'); return; }
+    if (!audioLoaded || !uploadedAudioFile || !Number.isFinite(audioDuration) || audioDuration <= 0) {
+      alert('Please add a valid song or audio file before creating the video.'); return;
+    }
+    const totalDuration = audioDuration * loopCount;
+    if (!Number.isFinite(totalDuration) || totalDuration > 24 * 60 * 60) {
+      alert('This repeat count creates a video longer than 24 hours. Please choose a smaller count.'); return;
+    }
+    const durationLabel = totalDuration >= 3600 ? `${(totalDuration / 3600).toFixed(1)} hours` : `${(totalDuration / 60).toFixed(1)} minutes`;
+    if (totalDuration > 600 && !confirm(`This video will be about ${durationLabel} long. The browser must encode the complete video and may use substantial phone memory. Continue?`)) return;
+
+    const resChoice = document.getElementById('exportRes').value;
+    const ratio = document.getElementById('aspectRatio').value;
+    if (resChoice === '1080') {
+      if (ratio === '9:16') { canvas.width = 1080; canvas.height = 1920; }
+      else if (ratio === '1:1') { canvas.width = 1080; canvas.height = 1080; }
+      else { canvas.width = 1920; canvas.height = 1080; }
+    } else {
+      if (ratio === '9:16') { canvas.width = 720; canvas.height = 1280; }
+      else if (ratio === '1:1') { canvas.width = 720; canvas.height = 720; }
+      else { canvas.width = 1280; canvas.height = 720; }
+    }
+    initParticles();
+
+    const progressBox = document.getElementById('progressBox');
+    const progressFill = document.getElementById('progressFill');
+    const progressPercent = document.getElementById('progressPercent');
+    const progressLabel = document.getElementById('progressLabel');
+    const exportButton = document.getElementById('exportVideoBtn');
+    progressBox.style.display = 'block';
+    progressFill.style.width = '0%';
+    progressPercent.textContent = '0%';
+    progressLabel.textContent = 'Downloading video engine files... please wait';
+    exportInProgress = true;
+    exportButton.disabled = true;
+    exportButton.textContent = '⏳ Preparing video...';
+    isPlayingPreview = false;
+    bgAudio.pause();
+
+    let progressHandler = null;
+    let imageName = 'meeko_still.png';
+    let audioName = 'meeko_audio' + ((uploadedAudioFile.name.match(/\.([a-zA-Z0-9]{1,8})$/) || [,'mp3'])[1].toLowerCase());
+    let outputName = 'meeko_output.mp4';
+    try {
+      const ffmpeg = await getFFmpeg();
+      progressLabel.textContent = 'Preparing image and audio...';
+
+      // Snapshot the exact preview composition at the selected output resolution.
+      await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+      const imageBlob = await canvasToPngBlob(canvas);
+      const { fetchFile } = await import('https://cdn.jsdelivr.net/npm/@ffmpeg/util@0.12.1/dist/esm/index.js');
+      await ffmpeg.writeFile(imageName, await fetchFile(imageBlob));
+      await ffmpeg.writeFile(audioName, await fetchFile(uploadedAudioFile));
+
+      progressHandler = ({ progress }) => {
+        const pct = Math.max(0, Math.min(99, Math.round((progress || 0) * 100)));
+        progressFill.style.width = `${pct}%`;
+        progressPercent.textContent = `${pct}%`;
+        progressLabel.textContent = `Preparing MP4 audio (${loopCount}x) — ${pct}%`; 
+      };
+      ffmpeg.on('progress', progressHandler);
+      progressLabel.textContent = 'Building MP4 (one still frame + repeated audio)...';
+      exportButton.textContent = '⏳ Rendering...';
+
+      // FAST STILL-PHOTO MODE:
+      // Give the still image a time base equal to the complete output length.
+      // With VFR, FFmpeg writes ONE video frame whose sample duration spans
+      // the whole song; it does not render 1, 25, or 30 frames every second.
+      // The audio is looped independently to the requested repeat count.
+      const stillFrameRate = `1/${Math.max(1, Math.ceil(totalDuration))}`;
+      const audioExt = audioName.split('.').pop().toLowerCase();
+      // MP3/AAC-family files can be copied without a slow audio re-encode.
+      // Other formats are converted to AAC for MP4 compatibility.
+      const audioCodecArgs = ['mp3', 'aac', 'm4a', 'm4b', 'mp4'].includes(audioExt)
+        ? ['-c:a', 'copy']
+        : ['-c:a', 'aac', '-b:a', '128k'];
+      const args = [
+        '-y',
+        '-loop', '1', '-framerate', stillFrameRate, '-i', imageName,
+        '-stream_loop', String(Math.max(0, loopCount - 1)), '-i', audioName,
+        '-t', totalDuration.toFixed(3),
+        '-c:v', 'libx264', '-preset', 'ultrafast', '-tune', 'stillimage',
+        '-vsync', 'vfr', '-pix_fmt', 'yuv420p', '-threads', '1',
+        ...audioCodecArgs,
+        '-movflags', '+faststart', outputName
+      ];
+      const exitCode = await ffmpeg.exec(args);
+      if (exitCode !== 0) throw new Error('FFmpeg could not encode this video. Try 720p or a shorter repeat count.');
+
+      progressLabel.textContent = 'Preparing download...';
+      const data = await ffmpeg.readFile(outputName);
+      const videoBlob = new Blob([data.buffer], { type: 'video/mp4' });
+      const url = URL.createObjectURL(videoBlob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Meeko_AI_Video_${resChoice}p_${loopCount}x_${Date.now()}.mp4`;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 120000);
+      progressFill.style.width = '100%';
+      progressPercent.textContent = '100%';
+      progressLabel.textContent = '✅ MP4 video downloaded successfully!';
+      ffmpeg.off('progress', progressHandler);
+      // Remove temporary files to release the FFmpeg virtual filesystem memory.
+      try { await ffmpeg.deleteFile(imageName); } catch (_) {}
+      try { await ffmpeg.deleteFile(audioName); } catch (_) {}
+      try { await ffmpeg.deleteFile(outputName); } catch (_) {}
+    } catch (err) {
+      console.error(err);
+      progressLabel.textContent = '❌ Video export failed.';
+      alert((err && err.message ? err.message : 'Unable to render video.') + '\n\nPlease use Chrome, keep this page open, and try 720p with fewer repeats. The first render needs internet to load FFmpeg.');
+      if (ffmpegInstance && progressHandler) {
+        try { ffmpegInstance.off('progress', progressHandler); } catch (_) {}
+      }
+    } finally {
+      exportInProgress = false;
+      exportButton.disabled = false;
+      exportButton.textContent = '🎬 Create & Download Video';
+      bgAudio.pause();
+      bgAudio.currentTime = 0;
+      isPlayingPreview = false;
+      playPreviewBtn.textContent = '▶️ Play Audio Preview';
+    }
+  }
+
+  // =========================================================================
+  // 9. POLICY MODALS CONTENT
+  // =========================================================================
+  function openPolicyModal(type) {
+    const titleEl = document.getElementById('policyTitle');
+    const bodyEl = document.getElementById('policyBody');
+
+    if (type === 'privacy') {
+      titleEl.textContent = 'Privacy Policy';
+      bodyEl.innerHTML = '<p>Meeko AI Editor respects your privacy. All photos and audio files you select are processed locally inside your browser. We do not upload your personal media to external servers unless you explicitly connect your own third-party AI API key. We may display advertisements from Google AdSense or partner ad networks which use cookies to serve relevant ads.</p>';
+    } else if (type === 'terms') {
+      titleEl.textContent = 'Terms of Service';
+      bodyEl.innerHTML = '<p>By using Meeko AI Editor, you agree to use the tool only for lawful personal and creative projects. You retain full ownership of your created videos and photos. Ensure you have rights to any music or images you use.</p>';
+    } else {
+      titleEl.textContent = 'Contact Us';
+      bodyEl.innerHTML = '<p>Have questions, feedback, or business inquiries regarding Meeko AI Editor? Reach out to our support team at: <strong>support@meekoeditor.com</strong></p>';
+    }
+    document.getElementById('policyModal').style.display = 'flex';
+  }
+</script>
+
+<!-- =====================================================================
+     OPTIONAL GLOBAL POPUNDER / SOCIAL BAR SCRIPT (ADSTERRA / MONETAG)
+     Paste any global body-end ad script right above </body>
+     ===================================================================== -->
+
+</body>
+</html>
